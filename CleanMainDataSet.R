@@ -1,6 +1,7 @@
 getwd()
 setwd("DAT3000/Eksamen")
 # Cleaning the original dataset
+# JEG LOVER Å KOMMENTERE OG DELE DETTE OPP SENERE, MEN JEG GIDDER IKKE NÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅ
 {
   library(dplyr)
 
@@ -82,9 +83,44 @@ setwd("DAT3000/Eksamen")
         Testosterone_Level.ng.dL. = LBXTST,
         BMI = BMXBMI
       )
-}
-    
+    }
     write.csv(newData, paste0("nhanes_with_selection.csv"), row.names = FALSE)
+    
+  # Count of races,
+  {
+      raceCount <- newData %>%
+      count(Race, name = "RaceCount")
+
+    raceCount <- newData %>%
+      group_by(Race) %>%
+      summarise(
+        RaceCount = n(),
+        BMI_Mean = mean(BMI, na.rm = TRUE),
+        BMI_Standard_Deviation = mean(BMI, na.rm = TRUE),
+        Testosterone_Level_Mean.ng.dL = mean(Testosterone_Level.ng.dL., na.rm = TRUE),
+        Age_mean = mean(Age, na.rm = TRUE)
+      )
+    
+    
+    raceCount <- raceCount %>%
+      mutate(
+        Race = recode(
+          Race,
+          `1` = "Mexican_American",
+          `2` = "Other_Hispanic",
+          `3` = "Caucasian",
+          `4` = "Black",
+          `6` = "Asian",
+          `7` = "Other_Including_Multi_Racial"
+        )
+      )
+    
+      
+    View(raceCount)
+    
+ }
+    write.csv(raceCount, paste0("race_count.csv"), row.names = FALSE)
+    
 {
   
   mainDf <- as.data.frame(read.csv("pcos_cleaned.csv"))
