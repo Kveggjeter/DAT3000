@@ -10,6 +10,7 @@ setwd("DAT3000/Eksamen")
     df$BMI_Over_Normal <- ifelse(df$BMI > 25, 1, 0)
     df$Testosterone_Over_Normal <- ifelse(df$Testosterone_Level.ng.dL. > 70, 1, 0)
     df$Follicle_Less_Than_Average <- ifelse(df$Antral_Follicle_Count < 20, 1, 0)
+    df$PCOS_Diagnosis <- ifelse(df$PCOS_Diagnosis == 1, "Yes", "No")
     
     df <- df %>%
       relocate(BMI_Over_Normal, .after = BMI) %>%
@@ -53,10 +54,12 @@ setwd("DAT3000/Eksamen")
     bmi <- read_xpt("raw/BMX_I.xpt")
     demography <- read_xpt("raw/DEMO_I.xpt")
     hormones <- read_xpt("raw/TST_I.xpt")
+    menstrual <- read_xpt("raw/RHQ_I.xpt")
     
     newData <- demography %>%
       inner_join(hormones, by = "SEQN") %>%
-      inner_join(bmi, by = "SEQN")
+      inner_join(bmi, by = "SEQN") %>%
+      inner_join(menstrual, by = "SEQN")
     
     newData <- replace(newData, is.na(newData), 0)
     newData <- subset(newData, RIAGENDR == 2)
@@ -75,16 +78,27 @@ setwd("DAT3000/Eksamen")
     
 {
     newData$Number_Of_Children_Under_18 <- rowSums(newData[, c("DMDHHSZA", "DMDHHSZB")])
-    newData <- subset(newData, select=c(RIDAGEYR, RIDRETH3, Number_Of_Children_Under_18, LBXTST, Testosterone_Over_Normal, BMXBMI, BMI_Over_Normal))
+    newData <- subset(newData, select=c(RIDAGEYR, RIDRETH3, Number_Of_Children_Under_18, LBXTST, Testosterone_Over_Normal, BMXBMI, BMI_Over_Normal, RHQ031))
     newData <- newData %>%
       rename(
         Age = RIDAGEYR,
         Race = RIDRETH3,
         Testosterone_Level.ng.dL. = LBXTST,
-        BMI = BMXBMI
+        BMI = BMXBMI,
+        Menstrual_Irregularity = RHQ031
       )
+    
+    newData$Menstrual_Irregularity <- ifelse(newData$Menstrual_Irregularity == 1, 0, 1)
+    View(newData)
+    
+    
     }
     write.csv(newData, paste0("nhanes_with_selection.csv"), row.names = FALSE)
+    
+    
+    
+    
+    
     
   # Count of races,
   {
@@ -100,7 +114,6 @@ setwd("DAT3000/Eksamen")
         Testosterone_Level_Mean.ng.dL = mean(Testosterone_Level.ng.dL., na.rm = TRUE),
         Age_mean = mean(Age, na.rm = TRUE)
       )
-    
     
     raceCount <- raceCount %>%
       mutate(
