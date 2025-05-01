@@ -82,15 +82,13 @@ setwd("DAT3000/Eksamen")
     newData <- newData %>%
       rename(
         Age = RIDAGEYR,
-        Race = RIDRETH3,
+        Ethnicity = RIDRETH3,
         Testosterone_Level.ng.dL. = LBXTST,
         BMI = BMXBMI,
         Menstrual_Irregularity = RHQ031
       )
     
     newData$Menstrual_Irregularity <- ifelse(newData$Menstrual_Irregularity == 1, 0, 1)
-    View(newData)
-    
     
     }
     write.csv(newData, paste0("nhanes_with_selection.csv"), row.names = FALSE)
@@ -98,27 +96,24 @@ setwd("DAT3000/Eksamen")
     
     
     
-    
-   
-    
   # Count of races,
   {
     raceCount <- as.data.frame(read.csv("prediction.csv"))
     raceCount$prediction.PCOS_Diagnosis. <- ifelse(raceCount$prediction.PCOS_Diagnosis. == "Yes", 1, 0)
-    View(raceCount) 
     
     raceCount <- raceCount %>%
       group_by(Race) %>%
       summarise(
-        RaceCount = n(),
+        Ethnicity_Count = n(),
         BMI_Mean = mean(BMI, na.rm = TRUE),
         BMI_Standard_Deviation = mean(BMI, na.rm = TRUE),
         Testosterone_Level_Mean.ng.dL = mean(Testosterone_Level.ng.dL., na.rm = TRUE),
         Age_mean = mean(Age, na.rm = TRUE),
         Number_Of_Children_Under_18_Mean = mean(Number_Of_Children_Under_18, na.rm = TRUE),
+        Menstrual_Irregularity = mean(Menstrual_Irregularity, na.rm = TRUE),
         Prediction.PCOS_Diagnosis_Mean = mean(prediction.PCOS_Diagnosis., na.rm = TRUE)
       )
-    View(raceCount) 
+
     raceCount <- raceCount %>%
       mutate(
         Race = recode(
@@ -132,12 +127,9 @@ setwd("DAT3000/Eksamen")
         )
       )
     
-      
-    View(raceCount)
-    
- }
+    }
+
     write.csv(raceCount, paste0("Conclusion.csv"), row.names = FALSE)
-    
 {
   
   mainDf <- as.data.frame(read.csv("pcos_cleaned.csv"))
@@ -148,7 +140,7 @@ setwd("DAT3000/Eksamen")
            -Antral_Follicle_Count,
            -Follicle_Less_Than_Average)
   secondDf <- secondDf %>%
-    select(-Race, -Number_Of_Children_Under_18)
+    select(-Ethnicity, -Number_Of_Children_Under_18)
   
   secondDf <- secondDf %>%
     relocate(BMI, .after = Age) %>%
