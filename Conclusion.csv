@@ -1,4 +1,4 @@
-"Race","Ethnicity_Count","BMI_Mean","BMI_Standard_Deviation","Testosterone_Level_Mean.ng.dL","Age_mean","Number_Of_Children_Under_18_Mean","Menstrual_Irregularity","Prediction.PCOS_Diagnosis_Mean"
+"Ethnicity","Ethnicity_Count","BMI_Mean","BMI_Standard_Deviation","Testosterone_Level_Mean.ng.dL","Age_mean","Number_Of_Children_Under_18_Mean","Menstrual_Irregularity","Prediction.PCOS_Diagnosis_Mean"
 "Mexican_American",293,30.6696245733788,30.6696245733788,24.7164505119454,32.0409556313993,2.09215017064846,0.180887372013652,0.0102389078498294
 "Other_Hispanic",183,29.2103825136612,29.2103825136612,31.0374863387978,31.2841530054645,1.62841530054645,0.240437158469945,0.0218579234972678
 "Caucasian",398,28.5904522613065,28.5904522613065,24.8266582914573,31.786432160804,1.29899497487437,0.21356783919598,0.00753768844221105
