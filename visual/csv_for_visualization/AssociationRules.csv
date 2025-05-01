@@ -1,0 +1,17 @@
+﻿Premises,Conclusion,Support,Confidence,LaPlace,Gain,p-s,Lift,Conviction
+"BMI_Over_Normal, Menstrual_Irregularity, Testosterone_Over_Normal",PCOS_Diagnosis,0.097,0.815,0.98,-0.141,0.073319,4.096110806,4.332681818
+PCOS_Diagnosis,BMI_Over_Normal,0.199,1,1,-0.199,0.084376,1.736111111,0
+PCOS_Diagnosis,Menstrual_Irregularity,0.199,1,1,-0.199,0.09353,1.886792453,0
+"Follicle_Less_Than_Average, PCOS_Diagnosis",BMI_Over_Normal,0.092,1,1,-0.092,0.039008,1.736111111,0
+PCOS_Diagnosis,"BMI_Over_Normal, Menstrual_Irregularity",0.199,1,1,-0.199,0.136315,3.174603175,0
+"BMI_Over_Normal, PCOS_Diagnosis",Menstrual_Irregularity,0.199,1,1,-0.199,0.09353,1.886792453,0
+"Menstrual_Irregularity, PCOS_Diagnosis",BMI_Over_Normal,0.199,1,1,-0.199,0.084376,1.736111111,0
+"Testosterone_Over_Normal, PCOS_Diagnosis",BMI_Over_Normal,0.097,1,1,-0.097,0.041128,1.736111111,0
+"Follicle_Less_Than_Average, PCOS_Diagnosis",Menstrual_Irregularity,0.092,1,1,-0.092,0.04324,1.886792453,0
+"Testosterone_Over_Normal, PCOS_Diagnosis",Menstrual_Irregularity,0.097,1,1,-0.097,0.04559,1.886792453,0
+"Follicle_Less_Than_Average, PCOS_Diagnosis","BMI_Over_Normal, Menstrual_Irregularity",0.092,1,1,-0.092,0.06302,3.174603175,0
+"BMI_Over_Normal, Follicle_Less_Than_Average, PCOS_Diagnosis",Menstrual_Irregularity,0.092,1,1,-0.092,0.04324,1.886792453,0
+"Follicle_Less_Than_Average, Menstrual_Irregularity, PCOS_Diagnosis",BMI_Over_Normal,0.092,1,1,-0.092,0.039008,1.736111111,0
+"Testosterone_Over_Normal, PCOS_Diagnosis","BMI_Over_Normal, Menstrual_Irregularity",0.097,1,1,-0.097,0.066445,3.174603175,0
+"BMI_Over_Normal, Testosterone_Over_Normal, PCOS_Diagnosis",Menstrual_Irregularity,0.097,1,1,-0.097,0.04559,1.886792453,0
+"Menstrual_Irregularity, Testosterone_Over_Normal, PCOS_Diagnosis",BMI_Over_Normal,0.097,1,1,-0.097,0.041128,1.736111111,0

@@ -99,22 +99,26 @@ setwd("DAT3000/Eksamen")
     
     
     
+   
     
   # Count of races,
   {
-      raceCount <- newData %>%
-      count(Race, name = "RaceCount")
-
-    raceCount <- newData %>%
+    raceCount <- as.data.frame(read.csv("prediction.csv"))
+    raceCount$prediction.PCOS_Diagnosis. <- ifelse(raceCount$prediction.PCOS_Diagnosis. == "Yes", 1, 0)
+    View(raceCount) 
+    
+    raceCount <- raceCount %>%
       group_by(Race) %>%
       summarise(
         RaceCount = n(),
         BMI_Mean = mean(BMI, na.rm = TRUE),
         BMI_Standard_Deviation = mean(BMI, na.rm = TRUE),
         Testosterone_Level_Mean.ng.dL = mean(Testosterone_Level.ng.dL., na.rm = TRUE),
-        Age_mean = mean(Age, na.rm = TRUE)
+        Age_mean = mean(Age, na.rm = TRUE),
+        Number_Of_Children_Under_18_Mean = mean(Number_Of_Children_Under_18, na.rm = TRUE),
+        Prediction.PCOS_Diagnosis_Mean = mean(prediction.PCOS_Diagnosis., na.rm = TRUE)
       )
-    
+    View(raceCount) 
     raceCount <- raceCount %>%
       mutate(
         Race = recode(
@@ -132,7 +136,7 @@ setwd("DAT3000/Eksamen")
     View(raceCount)
     
  }
-    write.csv(raceCount, paste0("race_count.csv"), row.names = FALSE)
+    write.csv(raceCount, paste0("Conclusion.csv"), row.names = FALSE)
     
 {
   
