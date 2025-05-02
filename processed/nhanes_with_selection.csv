@@ -1,4 +1,4 @@
-"Age","Race","Number_Of_Children_Under_18","Testosterone_Level.ng.dL.","Testosterone_Over_Normal","BMI","BMI_Over_Normal","Menstrual_Irregularity"
+"Age","Ethnicity","Number_Of_Children_Under_18","Testosterone_Level.ng.dL.","Testosterone_Over_Normal","BMI","BMI_Over_Normal","Menstrual_Irregularity"
 42,4,2,21.8,0,20.3,0,0
 32,1,2,30.7,0,28.2,1,0
 30,2,0,38.1,0,26.6,1,0
