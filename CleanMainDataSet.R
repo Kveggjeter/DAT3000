@@ -2,6 +2,7 @@ getwd()
 setwd("DAT3000/Eksamen")
 # Cleaning the original dataset
 # JEG LOVER Å KOMMENTERE OG DELE DETTE OPP SENERE, MEN JEG GIDDER IKKE NÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅ
+# FAKEDATASETTTTTT
 {
   library(dplyr)
 
@@ -10,12 +11,21 @@ setwd("DAT3000/Eksamen")
     df$BMI_Over_Normal <- ifelse(df$BMI > 25, 1, 0)
     df$Testosterone_Over_Normal <- ifelse(df$Testosterone_Level.ng.dL. > 70, 1, 0)
     df$Follicle_Less_Than_Average <- ifelse(df$Antral_Follicle_Count < 20, 1, 0)
-    df$PCOS_Diagnosis <- ifelse(df$PCOS_Diagnosis == 1, "Yes", "No")
     
     df <- df %>%
       relocate(BMI_Over_Normal, .after = BMI) %>%
       relocate(Testosterone_Over_Normal, .after = Testosterone_Level.ng.dL.) %>%
       relocate(Follicle_Less_Than_Average, .after = Antral_Follicle_Count)
+    
+    df <- df %>%
+      group_by(BMI_Over_Normal) %>%
+      summarise(
+        BMI_Over_Normal_count = n(),
+        Age_mean = mean(Age, na.rm = TRUE),
+        Menstrual_Irregularity = mean(Menstrual_Irregularity, na.rm = TRUE),
+        Testosterone_Level_Mean.ng.dL = mean(Testosterone_Level.ng.dL., na.rm = TRUE),
+        PCOS_Diagnosis_Mean = mean(PCOS_Diagnosis, na.rm = TRUE)
+      )
     
     View(df)
 }  
@@ -89,7 +99,6 @@ setwd("DAT3000/Eksamen")
       )
     
     newData$Menstrual_Irregularity <- ifelse(newData$Menstrual_Irregularity == 1, 0, 1)
-    
     }
     write.csv(newData, paste0("nhanes_with_selection.csv"), row.names = FALSE)
     
@@ -100,6 +109,7 @@ setwd("DAT3000/Eksamen")
   {
     raceCount <- as.data.frame(read.csv("prediction.csv"))
     raceCount$prediction.PCOS_Diagnosis. <- ifelse(raceCount$prediction.PCOS_Diagnosis. == "Yes", 1, 0)
+    write.csv(raceCount, paste0("prediction_with_number.csv"), row.names = FALSE)
     
     raceCount <- raceCount %>%
       group_by(Race) %>%
@@ -127,10 +137,75 @@ setwd("DAT3000/Eksamen")
         )
       )
     
-    }
+    raceCount <- raceCount %>%
+      rename(
+        Ethnicity = Race
+      )
+  }
 
     write.csv(raceCount, paste0("Conclusion.csv"), row.names = FALSE)
-{
+
+  
+  {
+    labelDf <- as.data.frame(read.csv("prediction.csv"))
+    labelDf$Age_Category <- ifelse(labelDf$Age < 25, "Young", "Adult")
+    labelDf$Age_Category[labelDf$Age > 40] <- "Mature"
+    labelDf$BMI_Category <- ifelse(labelDf$BMI < 18.5, "Underweight", "Normal")
+    labelDf$BMI_Category[labelDf$BMI > 24.9] <- "Overweight"
+    labelDf$BMI_Category[labelDf$BMI > 29.9] <- "Obese"
+    labelDf$BMI_Category[labelDf$BMI > 39.9] <- "Extremely Obese"
+    labelDf$Testosterone_Category <- ifelse(labelDf$Testosterone_Level.ng.dL. > 70, "High", "Normal")
+    
+    labelDf <- labelDf %>%
+      mutate(
+        Race = recode(
+          Race,
+          `1` = "Mexican_American",
+          `2` = "Other_Hispanic",
+          `3` = "Caucasian",
+          `4` = "Black",
+          `6` = "Asian",
+          `7` = "Other_Including_Multi_Racial"
+        )
+      )
+    
+    labelDf <- labelDf %>%
+      rename(
+        Ethnicity = Race
+      )
+    
+    
+    
+    labelDf$prediction.PCOS_Diagnosis. <- ifelse(labelDf$prediction.PCOS_Diagnosis. == "Yes", 1, 0)
+    labelDf <- labelDf %>%
+      group_by(BMI_Category) %>%
+      summarise(
+        BMI_Category_Count = n(),
+        Age_mean = mean(Age, na.rm = TRUE),
+        Menstrual_Irregularity = mean(Menstrual_Irregularity, na.rm = TRUE),
+        Testosterone_Level_Mean.ng.dL = mean(Testosterone_Level.ng.dL., na.rm = TRUE),
+        BMI_Mean = mean(BMI, na.rm = TRUE),
+        Prediction.PCOS_Diagnosis_Mean = mean(prediction.PCOS_Diagnosis., na.rm = TRUE)
+      )
+    
+    View(labelDf)
+  
+    }
+    View(labelDf)
+    write.csv(labelDf, paste0("prediction_with_bmi_grouping.csv"), row.names = FALSE)
+    write.csv(labelDf, paste0("prediction_with_age_grouping.csv"), row.names = FALSE)
+    write.csv(labelDf, paste0("prediction_with_testosterone_grouping.csv"), row.names = FALSE)
+    
+    
+    
+    write.csv(labelDf, paste0("prediction_without_grouping_labels.csv"), row.names = FALSE)
+  
+  
+  
+  
+  
+  
+  
   
   mainDf <- as.data.frame(read.csv("pcos_cleaned.csv"))
   secondDf <- as.data.frame(read.csv("nhanes_with_selection.csv"))

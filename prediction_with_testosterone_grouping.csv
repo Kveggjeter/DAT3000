@@ -1,0 +1,3 @@
+"Testosterone_Category","Testosterone_Category_Count","Age_mean","Menstrual_Irregularity","Testosterone_Level_Mean.ng.dL","BMI_Mean","Prediction.PCOS_Diagnosis_Mean"
+"High",33,28.1515151515152,0.181818181818182,146.730303030303,28.9757575757576,0.272727272727273
+"Normal",1443,32.0977130977131,0.225918225918226,23.4301316701317,29.1367983367983,0.00554400554400554
