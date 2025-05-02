@@ -147,7 +147,7 @@ setwd("DAT3000/Eksamen")
 
   
   {
-    labelDf <- as.data.frame(read.csv("prediction.csv"))
+    labelDf <- as.data.frame(read.csv("new_conclusion.csv"))
     labelDf$Age_Category <- ifelse(labelDf$Age < 25, "Young", "Adult")
     labelDf$Age_Category[labelDf$Age > 40] <- "Mature"
     labelDf$BMI_Category <- ifelse(labelDf$BMI < 18.5, "Underweight", "Normal")
@@ -178,9 +178,9 @@ setwd("DAT3000/Eksamen")
     
     labelDf$prediction.PCOS_Diagnosis. <- ifelse(labelDf$prediction.PCOS_Diagnosis. == "Yes", 1, 0)
     labelDf <- labelDf %>%
-      group_by(BMI_Category) %>%
+      group_by(Ethnicity) %>%
       summarise(
-        BMI_Category_Count = n(),
+        Ethnicity_Count = n(),
         Age_mean = mean(Age, na.rm = TRUE),
         Menstrual_Irregularity = mean(Menstrual_Irregularity, na.rm = TRUE),
         Testosterone_Level_Mean.ng.dL = mean(Testosterone_Level.ng.dL., na.rm = TRUE),
@@ -191,7 +191,6 @@ setwd("DAT3000/Eksamen")
     View(labelDf)
   
     }
-    View(labelDf)
     write.csv(labelDf, paste0("prediction_with_bmi_grouping.csv"), row.names = FALSE)
     write.csv(labelDf, paste0("prediction_with_age_grouping.csv"), row.names = FALSE)
     write.csv(labelDf, paste0("prediction_with_testosterone_grouping.csv"), row.names = FALSE)
